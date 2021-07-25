@@ -1,0 +1,20 @@
+
+{
+    "region" : "us-east-2",
+    "configuration" : "Debug",
+    "framework"     : "netcoreapp2.2",
+    "self-contained" : false,
+    "application"    : "COMBODEMOLBackend",
+    "environment"    : "COMBODEMOLBackend-test",
+    "enable-xray"    : false,
+    "enhanced-health-type" : "basic",
+    "additional-options"   : "\"aws:autoscaling:launchconfiguration,SecurityGroups\"=\"sg-d98815a7\";\"aws:ec2:vpc,Subnets\"=\"subnet-40b56c2b\"",
+    "solution-stack"       : "64bit Amazon Linux 2 v2.0.3 running .NET Core",
+    "environment-type"     : "SingleInstance",
+    "cname"                : "combodemolbackend-test",
+    "instance-type"        : "t3a.medium",
+    "key-pair"             : "",
+    "instance-profile"     : "aws-elasticbeanstalk-ec2-role",
+    "service-role"         : "aws-elasticbeanstalk-service-role",
+    "proxy-server"         : "nginx"
+}
