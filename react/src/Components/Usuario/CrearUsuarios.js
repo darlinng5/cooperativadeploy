@@ -15,9 +15,6 @@ const Api = baseUrl + "usuario/";
 
 class crearUsuarios extends Component {
 
-    handleChangebarrio(value) {
-        this.setState({ barrio: value });
-    }
 
     handleChangeestadoCivil(value) {
         this.setState({ estadoCivil: value });
@@ -32,7 +29,6 @@ class crearUsuarios extends Component {
 
         this.state = {
             isLoaded: false,
-            barrios: [],
             estadosCiviles: [],
             primerNombre: null,
             segundoNombre: null,
@@ -43,7 +39,6 @@ class crearUsuarios extends Component {
             profesionuOficio: null,
             telefono: null,
             fechadeNacimiento: null,
-            barrio: null,
             estadoCivil: null,
             direccion: null
         };
@@ -62,15 +57,6 @@ class crearUsuarios extends Component {
     };
 
     componentDidMount() {
-        fetch(baseUrl + "barrio")
-            .then(res => res.json())
-            .then(json => {
-                console.log(json);
-                this.setState({
-                    isLoaded: true,
-                    barrios: json,
-                })
-            });
 
         fetch(baseUrl + "estadocivil")
             .then(res => res.json())
@@ -96,11 +82,10 @@ class crearUsuarios extends Component {
             profesionuOficio: this.state.profesionuOficio,
             telefono: this.state.telefono,
             fechadeNacimiento: this.state.fechadeNacimiento,
-            barrioId: this.state.barrio,
             estadoCivilId: this.state.estadoCivil,
             direccion: this.state.direccion,
         }
-        const { barrio, estadoCivil, barrios, estadosCiviles, fechadeNac } = this.state;
+        const { estadoCivil, estadosCiviles, fechadeNac } = this.state;
 
         return (
 
@@ -187,22 +172,6 @@ class crearUsuarios extends Component {
                             }}
                             style={{ width: '200px', marginLeft: 10 }}
                         />
-                        <FormControl variant="outlined" style={{ marginLeft: 10, marginTop: 16 }}>
-                            <InputLabel id="demo-simple-select-outlined-label">Barrio</InputLabel>
-                            <Select
-                                value={barrio}
-                                onChange={event => this.handleChangebarrio(event.target.value)}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                labelId="demo-simple-select-outlined-label"
-                                style={{ width: '200px', marginLeft: 10 }}
-                            >
-                                {barrios.map(item => (
-                                    <MenuItem key={item.barrioId} value={item.barrioId}>{item.nombreBarrio}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
                         <FormControl variant="outlined" style={{ marginLeft: 10, marginTop: 16 }}>
                             <InputLabel id="demo-simple-select-outlined-label">Estado Civil</InputLabel>
                             <Select
@@ -296,20 +265,5 @@ class crearUsuarios extends Component {
         this.setState({ direccion: event.target.value })
     }
 }
-
-const PostApi = (nuevoUsuario) => (
-
-    axios
-        .post(Api, nuevoUsuario)
-        .then(response => {
-            swal("Exito!", "Usuario Creado!", "success");
-
-        })
-        .catch(error => {
-            swal("Error!", error.response.data, "error");
-        })
-
-
-)
 
 export default crearUsuarios;

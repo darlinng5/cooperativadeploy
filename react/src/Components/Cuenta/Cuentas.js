@@ -15,7 +15,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
-import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import axios from 'axios';
@@ -29,7 +28,7 @@ const onClickDelete = (id) => {
 
   swal({
     title: "Eliminar",
-    text: "Esta seguro que desea eliminar el Usuario?",
+    text: "Esta seguro que desea eliminar la Cuenta",
     icon: "warning",
     buttons: ["No", "Si"]
   }).then(respuesta => {
@@ -42,18 +41,12 @@ const onClickDelete = (id) => {
           })
           window.location.reload(true);
         }).catch(error => {
-          swal("Error!", "No de puede eliminar la Cuenta", "error");
+          swal("Error!", "No se puede eliminar la Cuenta", "error");
         })
     }
   })
 
 }
-
-const reload = () => {
-  window.location.reload(true);
-}
-
-
 class Cuentas extends Component {
 
   constructor(props) {
@@ -103,7 +96,7 @@ class Cuentas extends Component {
 
     const cuentaUsuarioDetalleFilter = [];
     cuentaUsuarioDetalle.map((item) => {
-      if (cuentaUsuarioDetalleFilter.filter(cuentas => cuentas.cuentaId == item.cuentaId).length <= 0) {
+      if (cuentaUsuarioDetalleFilter.filter(cuentas => cuentas.cuentaId === item.cuentaId).length <= 0) {
         cuentaUsuarioDetalleFilter.push(item);
       }
 

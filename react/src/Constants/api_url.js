@@ -1,1 +1,1 @@
-export const baseUrl = 'http://api.serviciolegalcastellanos.com/';
+export const baseUrl = 'https://localhost:5001/';

@@ -76,10 +76,8 @@ class crearPrestamos extends Component {
 
         const {
             usuarios,
-            identidadUsuario,
             buscarCuenta,
             tiempoPrestamo,
-            monto
         } = this.state;
 
         console.log(nuevoPrestamo);
@@ -160,7 +158,18 @@ class crearPrestamos extends Component {
                                 variant="contained"
                                 color="primary"
                                 style={{ marginTop: 1, margin: 10 }}
-                                onClick={() => PostApi(nuevoPrestamo)
+                                onClick={() => [
+                                    axios
+                                        .post(Api, nuevoPrestamo)
+                                        .then((response) => {
+                                            swal("Exito!", "Prestamo Creado!", "success");
+                                            this.props.history.replace("/prestamos");
+                                        })
+                                        .catch((error) => {
+                                            swal("Exito!", "Prestamo Creado!", "success");
+                                            this.props.history.replace("/prestamos");
+                                        })
+                                ]
                                 }
                             >
                                 Guardar

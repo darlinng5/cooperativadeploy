@@ -3,10 +3,6 @@ import { Link } from "react-router-dom";
 import Navigation from "../Navigation";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
 import axios from "axios";
 import swal from "sweetalert";
 import { baseUrl } from "../../Constants/api_url";
@@ -14,9 +10,6 @@ import { baseUrl } from "../../Constants/api_url";
 const Api = baseUrl + "beneficiario/";
 
 class editarBenecifiarios extends Component {
-  handleChangebarrio(value) {
-    this.setState({ barrio: value });
-  }
 
   handleChangefechadeNacimiento = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -35,12 +28,10 @@ class editarBenecifiarios extends Component {
     const { lugardeNacimiento } = this.props.location.state.item;
     const { telefono } = this.props.location.state.item;
     var { fechadeNacimiento } = this.props.location.state.item;
-    const { barrioId } = this.props.location.state.item;
     const { direccion } = this.props.location.state.item;
 
     this.state = {
       isLoaded: false,
-      barrios: [],
       primerNombre: primerNombre,
       segundoNombre: segundoNombre,
       primerApellido: primerApellido,
@@ -49,7 +40,6 @@ class editarBenecifiarios extends Component {
       lugardeNacimiento: lugardeNacimiento,
       telefono: telefono,
       fechadeNacimiento: fechadeNacimiento.split("T")[0],
-      barrio: barrioId,
       direccion: direccion,
       item: item,
     };
@@ -74,15 +64,6 @@ class editarBenecifiarios extends Component {
   }
 
   componentWillMount() {
-    fetch(baseUrl + "barrio")
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-        this.setState({
-          isLoaded: true,
-          barrios: json,
-        });
-      });
 
     const { identidadBeneficiario } = this.props.location.state.item;
 
@@ -106,10 +87,8 @@ class editarBenecifiarios extends Component {
       lugardeNacimiento: this.state.lugardeNacimiento,
       telefono: this.state.telefono,
       fechadeNacimiento: this.state.fechadeNacimiento,
-      barrioId: this.state.barrio,
       direccion: this.state.direccion,
     };
-    const { barrio, barrios } = this.state;
 
     return (
       <div>
@@ -197,30 +176,6 @@ class editarBenecifiarios extends Component {
               }}
               style={{ width: "200px", marginLeft: 10 }}
             />
-            <FormControl
-              variant="outlined"
-              style={{ marginLeft: 10, marginTop: 16 }}
-            >
-              <InputLabel id="demo-simple-select-outlined-label">
-                Barrio
-              </InputLabel>
-              <Select
-                value={barrio}
-                onChange={(event) =>
-                  this.handleChangebarrio(event.target.value)
-                }
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                style={{ width: "200px", marginLeft: 10 }}
-              >
-                {barrios.map((item) => (
-                  <MenuItem key={item.barrioId} value={item.barrioId}>
-                    {item.nombreBarrio}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
             <br />
             <TextField
               name="direccion"
@@ -245,7 +200,7 @@ class editarBenecifiarios extends Component {
                     )
                     .then((response) => {
                       swal("Exito!", "Beneficiario Editado", "success");
-                      this.props.history.replace("/beneficarios");
+                      this.props.history.replace("/beneficiarios");
                     })
                     .catch((error) => {
                       swal("Error!", error.response.data, "error");

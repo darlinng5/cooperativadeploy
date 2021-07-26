@@ -12,10 +12,9 @@ class Navigation extends Component {
                     <li><Link to="/movcuentas">Movimientos</Link></li>
                     <li><Link to="/beneficiarios">Beneficiarios</Link></li>
                     <li><Link to="/prestamos">Prestamos</Link></li>
-                    <li><a href="#">Acerca de Nosotros</a></li>
                 </ul>
             </nav>
-            
+
         )
     }
 }

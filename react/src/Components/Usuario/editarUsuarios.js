@@ -14,9 +14,6 @@ import { baseUrl } from "../../Constants/api_url";
 const Api = baseUrl + "usuario/";
 
 class editarUsuarios extends Component {
-  handleChangebarrio(value) {
-    this.setState({ barrio: value });
-  }
 
   handleChangeestadoCivil(value) {
     this.setState({ estadoCivil: value });
@@ -40,13 +37,11 @@ class editarUsuarios extends Component {
     const { profesionuOficio } = this.props.location.state.item;
     const { telefono } = this.props.location.state.item;
     var { fechadeNacimiento } = this.props.location.state.item;
-    const { barrioId } = this.props.location.state.item;
     const { estadoCivilId } = this.props.location.state.item;
     const { direccion } = this.props.location.state.item;
 
     this.state = {
       isLoaded: false,
-      barrios: [],
       estadosCiviles: [],
       primerNombre: primerNombre,
       segundoNombre: segundoNombre,
@@ -57,7 +52,6 @@ class editarUsuarios extends Component {
       profesionuOficio: profesionuOficio,
       telefono: telefono,
       fechadeNacimiento: fechadeNacimiento.split("T")[0],
-      barrio: barrioId,
       estadoCivil: estadoCivilId,
       direccion: direccion,
       item: item,
@@ -66,35 +60,16 @@ class editarUsuarios extends Component {
     this.updateInputprimerNombre = this.updateInputprimerNombre.bind(this);
     this.updateInputsegundoNombre = this.updateInputsegundoNombre.bind(this);
     this.updateInputprimerApellido = this.updateInputprimerApellido.bind(this);
-    this.updateInputsegundoApellido = this.updateInputsegundoApellido.bind(
-      this
-    );
-    this.updateInputidentidadUsuario = this.updateInputidentidadUsuario.bind(
-      this
-    );
-    this.updateInputlugardeNacimiento = this.updateInputlugardeNacimiento.bind(
-      this
-    );
-    this.updateInputprofesionuOficio = this.updateInputprofesionuOficio.bind(
-      this
-    );
+    this.updateInputsegundoApellido = this.updateInputsegundoApellido.bind(this);
+    this.updateInputidentidadUsuario = this.updateInputidentidadUsuario.bind(this);
+    this.updateInputlugardeNacimiento = this.updateInputlugardeNacimiento.bind(this);
+    this.updateInputprofesionuOficio = this.updateInputprofesionuOficio.bind(this);
     this.updateInputtelefono = this.updateInputtelefono.bind(this);
-    this.updateInputfechadeNacimiento = this.updateInputfechadeNacimiento.bind(
-      this
-    );
+    this.updateInputfechadeNacimiento = this.updateInputfechadeNacimiento.bind(this);
     this.updateInputdireccion = this.updateInputdireccion.bind(this);
   }
 
   componentWillMount() {
-    fetch(baseUrl + "barrio")
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-        this.setState({
-          isLoaded: true,
-          barrios: json,
-        });
-      });
 
     fetch(baseUrl + "estadocivil")
       .then((res) => res.json())
@@ -130,16 +105,12 @@ class editarUsuarios extends Component {
       profesionuOficio: this.state.profesionuOficio,
       telefono: this.state.telefono,
       fechadeNacimiento: this.state.fechadeNacimiento,
-      barrioId: this.state.barrio,
       estadoCivilId: this.state.estadoCivil,
       direccion: this.state.direccion,
     };
     const {
-      barrio,
       estadoCivil,
-      barrios,
       estadosCiviles,
-      fechadeNac,
     } = this.state;
 
     return (
@@ -237,30 +208,6 @@ class editarUsuarios extends Component {
               }}
               style={{ width: "200px", marginLeft: 10 }}
             />
-            <FormControl
-              variant="outlined"
-              style={{ marginLeft: 10, marginTop: 16 }}
-            >
-              <InputLabel id="demo-simple-select-outlined-label">
-                Barrio
-              </InputLabel>
-              <Select
-                value={barrio}
-                onChange={(event) =>
-                  this.handleChangebarrio(event.target.value)
-                }
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                style={{ width: "200px", marginLeft: 10 }}
-              >
-                {barrios.map((item) => (
-                  <MenuItem key={item.barrioId} value={item.barrioId}>
-                    {item.nombreBarrio}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
             <FormControl
               variant="outlined"
               style={{ marginLeft: 10, marginTop: 16 }}

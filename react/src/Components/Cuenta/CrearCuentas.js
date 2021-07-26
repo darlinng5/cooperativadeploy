@@ -7,7 +7,6 @@ import Table from "@material-ui/core/Table";
 import Button from "@material-ui/core/Button";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import Select from '@material-ui/core/Select';
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
@@ -18,8 +17,6 @@ import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import swal from "sweetalert";
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
 
 import { baseUrl } from "../../Constants/api_url";
 
@@ -54,12 +51,6 @@ class crearCuentas extends Component {
         this.setState({ identidadBeneficiarioRadio: value });
     }
 
-    handleChangeparentezco(value) {
-        this.setState({ parentezcoSelected: value });
-        this.state.parentezcos.push(
-            value
-        );
-    }
 
     handleChangeusuarioButton() {
         if (this.state.identidadUsuarioRadio == null) {
@@ -95,19 +86,15 @@ class crearCuentas extends Component {
             }
         }
     }
-
     handleChangebeneficiarioButton() {
         if (this.state.identidadBeneficiarioRadio == null) {
             swal("Error!", "No se ha agregado ningun Beneficiario.", "error");
         } else {
-
             if (
                 this.state.identidadBeneficiario.includes(
                     this.state.beneficiarios.filter((beneficiario) =>
                         beneficiario.identidadBeneficiario.startsWith(
-                            this.state.identidadBeneficiarioRadio,
-                            console.log(beneficiario),
-                            console.log(this.state.identidadBeneficiarioRadio)
+                            this.state.identidadBeneficiarioRadio
                         )
                     )[0]
                 )
@@ -116,19 +103,12 @@ class crearCuentas extends Component {
             } else {
                 if (this.state.identidadBeneficiario.length < 3) {
                     this.state.identidadBeneficiario.push(
-                        {
-
-                            cuentaId: null,
-                            identidadBeneficiario: this.state.identidadBeneficiarioRadio,
-                            parentezcoid: null,
-                            primerNombre: this.state.beneficiarios.filter((beneficiario) =>
-                                beneficiario.identidadBeneficiario.startsWith(this.state.identidadBeneficiarioRadio)
-                            )[0].primerNombre
-
-
-
-                        }
-                    )
+                        this.state.beneficiarios.filter((beneficiario) =>
+                            beneficiario.identidadBeneficiario.startsWith(
+                                this.state.identidadBeneficiarioRadio
+                            )
+                        )[0]
+                    );
                     this.forceUpdate();
                 } else {
                     swal(
@@ -203,12 +183,7 @@ class crearCuentas extends Component {
         const nuevaCuentaBeneficiario = {
             identidadBeneficiario: null,
             cuentaId: null,
-            parentezcoId: null
         }
-
-        var count = 0;
-
-
 
         const {
             usuarios,
@@ -414,15 +389,30 @@ class crearCuentas extends Component {
                                 variant="contained"
                                 color="primary"
                                 style={{ marginTop: 1, margin: 10 }}
-                                onClick={() =>
-                                    PostApi(
-                                        nuevaCuenta,
-                                        nuevaCuentaDetalle,
-                                        identidadUsuario,
-                                        nuevaCuentaAportacion,
-                                    )
-                                }
-                            >
+                                onClick={() => [
+
+                                    axios
+                                        .post(Api, nuevaCuenta)
+                                        .then(response => {
+                                            identidadBeneficiario.map((item) => (
+                                                (nuevaCuentaBeneficiario.identidadBeneficiario = item.identidadBeneficiario),
+                                                (nuevaCuentaBeneficiario.cuentaId = response.data.cuentaId),
+                                                PostBeneficiarioCuentaDetalle(nuevaCuentaBeneficiario)
+                                            ));
+
+                                            identidadUsuario.map((item) => (
+                                                (nuevaCuentaDetalle.cuentaId = response.data.cuentaId),
+                                                (nuevaCuentaAportacion.cuentaId = response.data.cuentaId),
+                                                (nuevaCuentaDetalle.identidadUsuario = item.identidadUsuario),
+                                                PostCuentaDetalle(nuevaCuentaDetalle, nuevaCuentaAportacion)
+                                            ));
+                                            swal("Exito!", "Cuenta Creada!", "success");
+                                            this.props.history.replace("/cuentas");
+                                        })
+                                        .catch((error) => {
+                                            swal("Error!", error.response.data, "error");
+                                        })
+                                ]}>
                                 Guardar
                 </Button>
                             <Link to="/cuentas">
@@ -465,29 +455,17 @@ class crearCuentas extends Component {
     }
 }
 
-const PostApi = (
-    nuevaCuenta,
-    nuevaCuentaDetalle,
-    identidadUsuario,
-    nuevaCuentaAportacion,
-) =>
-    axios
-        .post(Api, nuevaCuenta)
-        .then((response) => {
 
-            identidadUsuario.map(
-                (item) => (
-                    (nuevaCuentaDetalle.cuentaId = response.data.cuentaId),
-                    (nuevaCuentaAportacion.cuentaId = response.data.cuentaId),
-                    (nuevaCuentaDetalle.identidadUsuario = item.identidadUsuario),
-                    PostCuentaDetalle(nuevaCuentaDetalle, nuevaCuentaAportacion)
-                )
-            );
+const PostBeneficiarioCuentaDetalle = (nuevaCuentaBeneficiario) =>
+    axios
+        .post(ApiCuentaBeneficiarioDetalle, nuevaCuentaBeneficiario)
+        .then((response) => {
+            console.log("Beneficiario Creado")
         })
         .catch((error) => {
-
             swal("Error!", error.response.data, "error");
         });
+
 
 const PostCuentaDetalle = (nuevaCuentaDetalle, nuevaCuentaAportacion) =>
     axios
@@ -503,12 +481,10 @@ const PostCuentaAportacion = (nuevaCuentaAportacion) =>
     axios
         .post(ApiCuentaAportacion, nuevaCuentaAportacion)
         .then((response) => {
-            swal("Exito!", "Cuenta Creada!", "success");
-            this.props.history.replace("/cuentas");
+            console.log("Exitos");
         })
         .catch((error) => {
-            swal("Exito!", "Cuenta Creada!", "success");
-            this.props.history.replace("/cuentas");
+            swal("Error!", error.response.data, "error");
         });
 
 

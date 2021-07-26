@@ -17,9 +17,11 @@ import MovCuentas from './Components/Cuenta/MovimientoCuentas'
 import Beneficiarios from './Components/Beneficiario/Beneficiarios'
 import crearBeneficiario from './Components/Beneficiario/CrearBeneficiarios'
 import editarBeneficiario from './Components/Beneficiario/editarBeneficiarios'
+import InformacionBeneficiarios from './Components/Beneficiario/informacionBeneficiarios'
 import prestamos from './Components/Prestamos/Prestamos'
 import CrearPrestamos from './Components/Prestamos/CrearPrestamos'
 import InformacionPrestamos from './Components/Prestamos/informacionPrestamos'
+import MovimientoPrestamos from './Components/Prestamos/MovimientoPrestamos'
 
 
 function App() {
@@ -46,6 +48,8 @@ function App() {
         <Route exact path='/prestamos' component={prestamos} />
         <Route exact path='/crearprestamos' component={CrearPrestamos} />
         <Route exact path='/informacionprestamos' component={InformacionPrestamos} />
+        <Route exact path='/movimientoprestamos' component={MovimientoPrestamos} />
+        <Route exact path='/infobeneficiarios' component={InformacionBeneficiarios} />
       </switch>
     </div>
   )

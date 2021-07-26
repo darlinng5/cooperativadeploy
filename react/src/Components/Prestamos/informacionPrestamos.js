@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Navigation from "../Navigation";
-import AddIcon from '@material-ui/icons/Add';
-import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,18 +9,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
-import axios from 'axios';
-import swal from 'sweetalert';
+
 import { baseUrl } from '../../Constants/api_url';
-
-const Api = baseUrl + "prestamoAportacion";
 const ApiUsuario = baseUrl + "usuario";
-
-
+const ApiPrestamoInteresGeneral = baseUrl + "prestamointeresgeneral";
 
 
 class informacionCuentas extends Component {
@@ -42,7 +31,7 @@ class informacionCuentas extends Component {
     this.state = {
       isLoaded: false,
       usuarios: [],
-      interesProcentaje: [],
+      prestamoInteresGeneral: [],
       prestamoAportacion: [],
       prestamoId: prestamoId,
       identidadUsuario: identidadUsuario,
@@ -50,7 +39,6 @@ class informacionCuentas extends Component {
       tiempoPrestamo: tiempoPrestamo,
       fechaCreacion: fechaCreacion,
       prestamo: prestamo,
-      saldoTotal: null
     };
   }
 
@@ -65,12 +53,12 @@ class informacionCuentas extends Component {
         })
       });
 
-    fetch(baseUrl + "prestamointeresgeneral")
+    fetch(ApiPrestamoInteresGeneral)
       .then(res => res.json())
       .then(json => {
         this.setState({
           isLoaded: true,
-          interesProcentaje: json,
+          prestamoInteresGeneral: json[0],
         })
       });
 
@@ -85,7 +73,10 @@ class informacionCuentas extends Component {
   }
 
   render() {
-    var { isLoaded, usuarios, prestamoAportacion, prestamoId, identidadUsuario, monto, tiempoPrestamo, fechaCreacion, prestamo, saldoTotal, interesProcentaje } = this.state;
+    var { isLoaded, usuarios, prestamoAportacion, prestamoId, identidadUsuario } = this.state;
+    console.log(this.state.prestamoInteresGeneral);
+    const saldoTotal = parseInt(this.state.monto) * ((parseInt(this.state.prestamoInteresGeneral.interesPocentaje) / 100) + 1);
+
     if (!isLoaded) {
       return <div><CircularProgress size={80} /></div>
     } else {
@@ -97,6 +88,7 @@ class informacionCuentas extends Component {
             <Row>
               <Col xs={12} md={3}>
                 <h3 style={{ marginLeft: 20 }}>No. de Prestamo: </h3> <h4 style={{ marginLeft: 20 }}> {this.state.prestamoId} </h4>
+                <br />
                 <h3 style={{ marginLeft: 20 }}>Cantidad del Prestamo: </h3> <h4 style={{ marginLeft: 20 }}> {this.state.monto} </h4>
                 <br />
                 <h3 style={{ marginLeft: 20 }}>Nombre Usuario: </h3>
@@ -105,7 +97,7 @@ class informacionCuentas extends Component {
                 ))}
               </Col >
               <Col xs={12} md={3}>
-                <h3>Saldo Total de la Prestamo:</h3><h4>{saldoTotal}</h4>
+                <h3 style={{ marginLeft: 20 }}>Saldo Total de la Prestamo:</h3><h4 style={{ marginLeft: 20 }}>{saldoTotal.toFixed(0)}</h4>
                 <br />
                 <h3 style={{ marginLeft: 20 }}>Fecha Fin del Prestamo: </h3> <h4 style={{ marginLeft: 20 }}> {this.state.tiempoPrestamo.split("T")[0]} </h4>
                 <br />

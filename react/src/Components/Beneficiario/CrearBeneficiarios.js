@@ -3,10 +3,6 @@ import { Link } from "react-router-dom";
 import Navigation from "../Navigation";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
 import axios from "axios";
 import swal from "sweetalert";
 import { baseUrl } from "../../Constants/api_url";
@@ -14,9 +10,7 @@ import { baseUrl } from "../../Constants/api_url";
 const Api = baseUrl + "beneficiario/";
 
 class crearBeneficiarios extends Component {
-  handleChangebarrio(value) {
-    this.setState({ barrio: value });
-  }
+
 
   handleChangefechadeNacimiento = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -27,7 +21,6 @@ class crearBeneficiarios extends Component {
 
     this.state = {
       isLoaded: false,
-      barrios: [],
       primerNombre: null,
       segundoNombre: null,
       primerApellido: null,
@@ -36,7 +29,6 @@ class crearBeneficiarios extends Component {
       lugardeNacimiento: null,
       telefono: null,
       fechadeNacimiento: null,
-      barrio: null,
       direccion: null,
     };
 
@@ -59,17 +51,6 @@ class crearBeneficiarios extends Component {
     this.updateInputdireccion = this.updateInputdireccion.bind(this);
   }
 
-  componentDidMount() {
-    fetch(baseUrl + "barrio")
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-        this.setState({
-          isLoaded: true,
-          barrios: json,
-        });
-      });
-  }
 
   render() {
     const nuevoBeneficiario = {
@@ -81,10 +62,9 @@ class crearBeneficiarios extends Component {
       lugardeNacimiento: this.state.lugardeNacimiento,
       telefono: this.state.telefono,
       fechadeNacimiento: this.state.fechadeNacimiento,
-      barrioId: this.state.barrio,
       direccion: this.state.direccion,
     };
-    const { barrio, barrios, estadosCiviles, fechadeNac } = this.state;
+    const { fechadeNac } = this.state;
 
     return (
       <div>
@@ -162,31 +142,6 @@ class crearBeneficiarios extends Component {
               }}
               style={{ width: "200px", marginLeft: 10 }}
             />
-            <FormControl
-              variant="outlined"
-              style={{ marginLeft: 10, marginTop: 16 }}
-            >
-              <InputLabel id="demo-simple-select-outlined-label">
-                Barrio
-              </InputLabel>
-              <Select
-                value={barrio}
-                onChange={(event) =>
-                  this.handleChangebarrio(event.target.value)
-                }
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                labelId="demo-simple-select-outlined-label"
-                style={{ width: "200px", marginLeft: 10 }}
-              >
-                {barrios.map((item) => (
-                  <MenuItem key={item.barrioId} value={item.barrioId}>
-                    {item.nombreBarrio}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
             <TextField
               name="direccion"
               label="Direccion"
@@ -267,15 +222,5 @@ class crearBeneficiarios extends Component {
     this.setState({ direccion: event.target.value });
   }
 }
-
-const PostApi = (nuevoBeneficiario) =>
-  axios
-    .post(Api, nuevoBeneficiario)
-    .then((response) => {
-      swal("Exito!", "Beneficiario Creado!", "success");
-    })
-    .catch((error) => {
-      swal("Error!", error.response.data, "error");
-    });
 
 export default crearBeneficiarios;

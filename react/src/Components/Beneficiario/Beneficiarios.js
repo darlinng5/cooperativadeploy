@@ -34,8 +34,8 @@ class Beneficiarios extends Component {
         axios
           .delete(`${Api}/${id}`)
           .then((res) => {
-            window.location.reload(true);
             swal("Exito", "Eliminado con Exito", "success");
+            this.props.history.replace("/beneficiarios");
           })
           .catch((error) => {
             swal("Error!", error.response.data, "error");
@@ -55,7 +55,6 @@ class Beneficiarios extends Component {
   }
 
   componentDidMount() {
-    console.log("Entro");
     fetch(Api)
       .then((res) => res.json())
       .then((json) => {
@@ -154,7 +153,7 @@ class Beneficiarios extends Component {
                           </IconButton>
                         </Link>
                         <Link
-                          to={{ pathname: "/infousuarios", state: { item } }}
+                          to={{ pathname: "/infobeneficiarios", state: { item } }}
                         >
                           <IconButton aria-label="Details">
                             <InfoIcon />

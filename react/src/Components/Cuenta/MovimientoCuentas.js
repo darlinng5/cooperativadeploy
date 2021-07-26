@@ -6,7 +6,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import Table from '@material-ui/core/Table';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -15,8 +14,6 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import { baseUrl } from '../../Constants/api_url';
 
-const Api = baseUrl + "cuenta/";
-const ApiCuentaDetalle = baseUrl + "cuentausuariodetalle/";
 const ApiCuentaAportacion = baseUrl + "cuentaaportacion";
 const ApiCuenta = baseUrl + "cuenta";
 
@@ -102,7 +99,7 @@ class movimientoCuentas extends Component {
             fecha: "2000-1-1"
         }
 
-        const { usuarios, identidadUsuario, buscarCuenta, cuentas, cuentaRadio, movimiento, saldo } = this.state;
+        const { buscarCuenta, cuentas, movimiento } = this.state;
 
         return (
 

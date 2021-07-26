@@ -106,14 +106,14 @@ nav.stroke ul li a:hover:after {
 
 .centered {
   position: absolute;
-  top: 15%;
+  top: 33%;
   font-family: sans-serif;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 img {
-  filter: blur(4px);
+  filter: blur(2px);
 }
 
 .formUsuario {
@@ -124,4 +124,20 @@ img {
   position: absolute;
   top: 5px;
   right: 15px;
+}
+
+.background {
+  background-color: black;
+}
+
+.letter {
+  color: white;
+}
+
+footer {
+  background-color: black;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color: white;
 }
