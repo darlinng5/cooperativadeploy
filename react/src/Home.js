@@ -8,9 +8,9 @@ import Image2 from "./images/Artboard 9@4x.png"
 class Home extends Component {
     Seguridad
     componentDidMount() {
-        if (!auth0Client.isAuthenticated()) {
+       /* if (!auth0Client.isAuthenticated()) {
             auth0Client.signIn();
-        }
+        }*/
     }
     signOut = () => {
         auth0Client.signOut();
