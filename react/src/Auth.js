@@ -7,7 +7,7 @@ class Auth {
       domain: 'dev-aq5t8yqb.us.auth0.com',
       audience: 'https://dev-aq5t8yqb.us.auth0.com/userinfo',
       clientID: 'xDYgIv7Nu6Y9B6Y5ndnZuaqObywOBFYz',
-      redirectUri: 'http://localhost:3000/callback',
+      redirectUri: 'http://serviciolegalcastellanos.com/callback',
       responseType: 'id_token',
       scope: 'openid profile'
     });
@@ -57,7 +57,7 @@ class Auth {
     this.profile = null;
     this.expiresAt = null;
     this.auth0.logout({
-        returnTo: 'http://localhost:3000',
+        returnTo: 'http://serviciolegalcastellanos.com',
         clientID: 'xDYgIv7Nu6Y9B6Y5ndnZuaqObywOBFYz',
     });
   }
